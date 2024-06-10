@@ -20,7 +20,7 @@ public class OrderAboutRentPage extends BasePage{
     //Локатор кнопки подтверждения заказа
     private By acceptButtonLocator = By.xpath(".//button[text() = 'Да']");
     //Локатор поиска статуса заказа
-    private By orderStatusLocator = By.className("Order_ModalHeader__3FDaJ");
+    private By orderStatusLocator = By.className("Order_Text__2broi");
 
     public OrderAboutRentPage(WebDriver driver) {
         super(driver);
@@ -48,7 +48,7 @@ public class OrderAboutRentPage extends BasePage{
     }
 
     public boolean isOrderProcessed(){
-        return driver.findElement(orderStatusLocator).isDisplayed();
+        return driver.findElement(orderStatusLocator).getText().contains("Номер заказа:");
     }
 
 }

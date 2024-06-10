@@ -1,5 +1,4 @@
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -33,7 +32,7 @@ public class MainPageFAQTest extends BaseTest{
 
 
     @Test
-    public void AccordationTest(){
+    public void accordationTest(){
         MainPageFAQ mainPageFAQ = new MainPageFAQ(driver);
         String actualText = mainPageFAQ.getTextFromAccordion(accoradionNumber);
         Assert.assertEquals("Текст не равен ожидаемому", expectedText, actualText);

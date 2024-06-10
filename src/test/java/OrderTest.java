@@ -1,5 +1,4 @@
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -7,10 +6,9 @@ import pageObjects.MainPage;
 import pageObjects.OrderAboutRentPage;
 import pageObjects.OrderPage;
 
-import java.util.Collection;
-
 @RunWith(Parameterized.class)
 public class OrderTest extends BaseTest{
+    private boolean isInHeadderButton;
     private String name;
     private String secondName;
     private String address;
@@ -21,8 +19,9 @@ public class OrderTest extends BaseTest{
     private int colorID;
     private String courierComment;
 
-    public OrderTest(String name, String secondName, String address, String metro, String phone,
+    public OrderTest(boolean isInHeadderButton, String name, String secondName, String address, String metro, String phone,
                      String rentDate, int rentTermID, int colorID, String courierComment) {
+        this.isInHeadderButton = isInHeadderButton;
         this.name = name;
         this.secondName = secondName;
         this.address = address;
@@ -35,10 +34,10 @@ public class OrderTest extends BaseTest{
     }
 
     @Parameterized.Parameters
-    public static Object[][] Data() {
+    public static Object[][] data() {
         return new Object[][] {
-                {"Тест","Тестиков","Тестовая 123","ВДНХ","88005553535","24.04.2024", 0, 0, "Тестовый комментарий"},
-                {"Евгений","Тестов","ул.Левая-Правая 45А кв.23","Курская","83479166666","15.10.2024", 1, 1, "Проверка"},
+                {true, "Тест","Тестиков","Тестовая 123","ВДНХ","88005553535","24.04.2024", 0, 0, "Тестовый комментарий"},
+                {false, "Евгений","Тестов","ул.Левая-Правая 45А кв.23","Курская","83479166666","15.10.2024", 1, 1, "Проверка"},
 
         };
     }
@@ -46,10 +45,10 @@ public class OrderTest extends BaseTest{
     @Test
     public void scooterOrderTest(){
         MainPage mainPage = new MainPage(driver);
-        OrderPage orderPage = mainPage.clickOnOrderButtonInHeadder();
+        OrderPage orderPage = mainPage.clickOnOrderButton(isInHeadderButton);
         OrderAboutRentPage orderAboutRentPage = orderPage.fillOrderDetails(name, secondName,address,metro,phone);
         orderAboutRentPage.order(rentDate, rentTermID,colorID,courierComment);
-        Assert.assertTrue(orderAboutRentPage.isOrderProcessed());
+        Assert.assertTrue("Ожидалось, что заказ оформлен", orderAboutRentPage.isOrderProcessed());
 
     }
 }
